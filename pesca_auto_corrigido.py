@@ -550,7 +550,7 @@ class Bot:
             self._release_now()
             self.log("[DESARMADO] Enter solto.")
             self._to_idle()
-        elif not value and self.state in ("WAIT_REEL", "REELING", "WAIT_GUARDAR"):
+        elif not value and self.state in ("WAIT_REEL", "REELING", "WAIT_GUARDAR", "RECASTING"):
             if self.tapper is not None:
                 self.tapper.stop_taps()
             self._release_now()
@@ -565,6 +565,12 @@ class Bot:
         if st == "WAIT_GUARDAR":
             self.tip = None
             self._wait_guardar(guardar_frame, t_cap)
+            self.prev_tcap = t_cap
+            return
+
+        if st == "RECASTING":
+            self.tip = None
+            self._recasting(t_cap)
             self.prev_tcap = t_cap
             return
 
@@ -942,11 +948,29 @@ class Bot:
             if self.gone_since is None:
                 self.gone_since = t_cap
             elif t_cap - self.gone_since >= GONE_S:
-                self._to_idle()
+                self._finish_cooldown(t_cap)
                 return
         else:
             self.gone_since = None
         if since >= COOLDOWN_MAX:
+            self._finish_cooldown(t_cap)
+
+    def _finish_cooldown(self, t_cap):
+        if CONFIG["keys"].get("auto_recast", False) and self.press_e is not None:
+            self.state = "RECASTING"
+            self.t_recast = t_cap
+            self.log("[AUTO-RECAST] Aguardando fim da animação para arremessar a vara novamente...")
+        else:
+            self._to_idle()
+
+    def _recasting(self, t_cap):
+        delay = CONFIG["keys"].get("recast_delay", 2.0)
+        elapsed = t_cap - self.t_recast
+        self.diag = f"recast em {max(0.0, delay - elapsed):.1f}s"
+        if elapsed >= delay:
+            self.log("[AUTO-RECAST] Pressionando 'E' para arremessar a vara na água...")
+            if self.press_e:
+                self.press_e()
             self._to_idle()
 
 

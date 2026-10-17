@@ -1,5 +1,19 @@
 {
+  "system_profile": {
+    "screen_width": 1920,
+    "screen_height": 1080,
+    "scale_x": 1.0,
+    "scale_y": 1.0,
+    "auto_detected": true,
+    "updated_at": "2026-10-16 23:03:57"
+  },
   "screen": {
+    "bar_region": {
+      "left": 993,
+      "top": 475,
+      "width": 28,
+      "height": 220
+    },
     "disc_region": {
       "left": 955,
       "top": 400,
@@ -8,24 +22,30 @@
     },
     "disc_cx": 1026.8,
     "disc_cy": 472.0,
-    "disc_r": 50.0
+    "disc_r": 50.0,
+    "guardar_region": {
+      "left": 720,
+      "top": 480,
+      "width": 480,
+      "height": 360
+    }
   },
   "cadence": {
     "base_hold": 0.108,
     "base_rest": 0.145,
-    "min_hold": 0.080,
+    "min_hold": 0.08,
     "max_hold": 0.125,
-    "min_rest": 0.050,
-    "max_rest": 0.320,
-    "target_ratio": 0.50,
+    "min_rest": 0.05,
+    "max_rest": 0.32,
+    "target_ratio": 0.5,
     "kp_rest": 0.0055,
     "kd_rest": 0.0025,
-    "kp_hold": 0.0010,
+    "kp_hold": 0.001,
     "invert_tension": false
   },
   "detection": {
     "disc_dark_v": 75,
-    "disc_rim_dark_frac": 0.60,
+    "disc_rim_dark_frac": 0.6,
     "ring_v_min": 75,
     "ring_s_min": 10,
     "ring_s_max": 220,
@@ -34,19 +54,21 @@
     "ring_min_px": 25,
     "check_min_px": 80,
     "check_stable_frames": 2,
-    "disc_stable_frames": 4
+    "disc_stable_frames": 4,
+    "guardar_threshold": 0.65
   },
   "keys": {
     "reel_key": "enter",
     "catch_key": "e",
-    "catch_key_hold": 0.100,
+    "catch_key_hold": 0.1,
     "input_backend": "pydirectinput",
-    "auto_recast": false,
-    "recast_delay": 2.0
+    "auto_recast": true,
+    "recast_delay": 2.5
   },
   "safety": {
     "max_reel_s": 120.0,
     "reel_gone_s": 1.2,
+    "guardar_timeout_s": 3.5,
     "cooldown_s": 2.0
   }
 }
